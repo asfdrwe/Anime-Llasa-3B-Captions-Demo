@@ -3,3 +3,4 @@ https://huggingface.co/NandemoGHS/Anime-XCodec2-44.1kHz/resolve/main/xcodec2-0.1
 soundfile
 torch
 torchcodec
+torchaudio

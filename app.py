@@ -1,4 +1,7 @@
-import spaces
+#
+# fork from https://huggingface.co/spaces/OmniAICreator/Anime-Llasa-3B-Captions-Demo
+# modified by asfdrwe@gmail.com running local environment instead of huggingface spaces
+# 
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import torch
 import soundfile as sf
@@ -14,7 +17,7 @@ import re
 # Model IDs (adjust if needed)
 # -------------------------------
 llasa_model_id = 'NandemoGHS/Anime-Llasa-3B-Captions'
-xcodec2_model_id = "NandemoGHS/Anime-XCodec2-44.1kHz"
+xcodec2_model_id = "NandemoGHS/Anime-XCodec2"
 
 # -------------------------------
 # Lazy/global objects (kept close to original)
@@ -23,6 +26,7 @@ xcodec2_model_id = "NandemoGHS/Anime-XCodec2-44.1kHz"
 tokenizer = AutoTokenizer.from_pretrained(llasa_model_id)
 model = AutoModelForCausalLM.from_pretrained(
     llasa_model_id,
+    torch_dtype=torch.bfloat16,
 )
 model.eval()  # device move happens inside infer()
 
@@ -134,7 +138,6 @@ def build_system_text(meta: dict) -> str:
 # -------------------------------
 # Main inference
 # -------------------------------
-@spaces.GPU(duration=60)
 def infer(
     sample_audio_path,
     ref_text,
@@ -171,7 +174,7 @@ def infer(
     codec_model.to(device).eval()
 
     # Use codec sampling rate for resampling/outputs
-    sr_codec = getattr(codec_model.config, 'sampling_rate', 44100)
+    sr_codec = getattr(codec_model.config, 'sampling_rate', 16000) # for Anime-XCodec2 model
 
     with torch.no_grad():
         speech_prefix_token_strs = []
@@ -689,4 +692,4 @@ If you're having issues, try converting your reference audio to WAV or MP3, clip
         ["TTS", "Examples", "README", "Credits"]
     )
 
-app.launch()
+app.launch(inbrowser=True)
