@@ -7,6 +7,7 @@ original README.md: README-original.md
 ```
 git clone https://github.com/asfdrwe/Anime-Llasa-3B-Captions-Demo
 cd Anime-Llasa-3B-Captions-Demo
+pip install torch torchaudio --index-url https://download.pytorch.org/whl/cu128
 pip install -r requirements.txt
 ```
 
