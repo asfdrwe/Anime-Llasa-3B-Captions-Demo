@@ -21,5 +21,6 @@ python app.py
   - use NandemoGHS/Anime-XCodec2 model instead of NandemoGHS/Anime-XCodec2-44.1kHz due to bad reference audio handling
   - use bfloat16
   - autolaunch browser
+  - add run.bat for windows
 
 by asfdrwe@gmail.com
