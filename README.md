@@ -1,4 +1,4 @@
-This repository is fork from https://huggingface.co/spaces/OmniAICreator/Anime-Llasa-3B-Captions-Demo.
+This repository is forked from https://huggingface.co/spaces/OmniAICreator/Anime-Llasa-3B-Captions-Demo.
 
 original README.md: README-original.md
 
