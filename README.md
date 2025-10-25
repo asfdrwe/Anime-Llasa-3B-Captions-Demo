@@ -1,17 +1,25 @@
----
-title: Anime-Llasa-3B-Captions-Demo
-emoji: 🔥
-colorFrom: red
-colorTo: pink
-sdk: gradio
-sdk_version: 5.12.0
-app_file: app.py
-pinned: false
-short_description: Anime-Llasa-3B-Captions-Demo
-models:
-- HKUST-Audio/Llasa-3B
-- NandemoGHS/Anime-Llasa-3B-Captions
-- NandemoGHS/Anime-XCodec2-44.1kHz
----
+This repository is fork from https://huggingface.co/spaces/OmniAICreator/Anime-Llasa-3B-Captions-Demo.
 
-Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
+original README.md: README-original.md
+
+# Install
+
+```
+git clone https://github.com/asfdrwe/Anime-Llasa-3B-Captions-Demo
+cd Anime-Llasa-3B-Captions-Demo
+pip install -r requirements.txt
+```
+
+# run
+
+```
+python app.py
+```
+
+# Changelog
+- 2025/10/25
+  - use NandemoGHS/Anime-XCodec2 model instead of NandemoGHS/Anime-XCodec2-44.1kHz due to bad reference audio handling
+  - use bfloat16
+  - autolaunch browser
+
+by asfdrwe@gmail.com
