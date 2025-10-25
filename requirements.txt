@@ -1,0 +1,5 @@
+gradio
+https://huggingface.co/NandemoGHS/Anime-XCodec2-44.1kHz/resolve/main/xcodec2-0.1.6.tar.gz
+soundfile
+torch
+torchcodec
