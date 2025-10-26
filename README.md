@@ -38,7 +38,7 @@ python app.py
 自動的にブラウザが開きます。
 
 ## Linux
-git と python3.12 と ffmpeg をインストールしてください。
+git と python3.12(または3.13) と ffmpeg をインストールしてください。
 
 
 ### インストール
