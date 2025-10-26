@@ -36,12 +36,13 @@ python app.py
 ```
 もしくは`run.bat`をダブルクリックしてください。
 
-自動的にブラウザが開きます。
-
 VRAM 12GBで参照音声を使用するとVRAMがあふれるので、`--whisper-cpu`オプションをつけて起動してください。whisperがCPUで動くので遅くなりますが、VRAMがあふれることはなくなるはずです。
-``
+```
 python app.py --whisper-cpu
 ```
+もしくは`run-whisper-cpu.bat`をダブルクリックして起動してください。
+
+自動的にブラウザが開きます。
 
 ## Linux
 git と python3.12(または3.13) と ffmpeg をインストールしてください。
