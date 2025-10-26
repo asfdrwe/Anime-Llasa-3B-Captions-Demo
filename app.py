@@ -307,7 +307,7 @@ def infer(
             gen_wav = gen_wav[:, :, scaled_len:]
 
         progress(1, 'Synthesized!')
-        return (sr_codec, gen_wav[0, 0, :].detach().cpu().numpy())
+        return (sr_output, gen_wav[0, 0, :].detach().cpu().numpy())
 
 # ===============================
 # UI: TTS Tab (unchanged behavior + metadata fields)
