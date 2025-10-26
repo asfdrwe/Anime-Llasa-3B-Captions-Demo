@@ -13,6 +13,13 @@ from xcodec2.modeling_xcodec2 import XCodec2Model
 import torchaudio
 import gradio as gr
 import re
+import argparse
+
+parser = argparse.ArgumentParser(description='Anime-Llasa-3B-Captions-Demo ローカル版')
+parser.add_argument('--whisper-cpu', action='store_true')
+args = parser.parse_args()
+if args.whisper_cpu:
+    print("whisper running on cpu")
 
 # -------------------------------
 # Model IDs (adjust if needed)
@@ -205,6 +212,7 @@ def infer(
             prompt_wav = waveform  # (1, T) at sr_codec
             prompt_wav_len = prompt_wav.shape[1]
 
+            whisper_device = device.type
             # Reference text: provided or transcribed
             if ref_text and ref_text.strip():
                 prompt_text = normalize(ref_text.strip())
@@ -217,7 +225,7 @@ def infer(
                         "automatic-speech-recognition",
                         model="openai/whisper-large-v3-turbo",
                         torch_dtype=torch.float16,
-                        device=device.type,
+                        device=device.type if not args.whisper_cpu else "cpu",
                     )
                 prompt_text = whisper_turbo_pipe(prompt_wav[0].cpu().numpy())['text'].strip()
                 progress(0.5, 'Transcribed! Encoding reference audio...')
