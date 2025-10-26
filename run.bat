@@ -1,2 +1,4 @@
-..\python_embeded\python.exe app.py
+venv\scripts\activate
+python.exe app.py
 pause
+
