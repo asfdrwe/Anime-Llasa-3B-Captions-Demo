@@ -1,27 +1,76 @@
-This repository is forked from https://huggingface.co/spaces/OmniAICreator/Anime-Llasa-3B-Captions-Demo.
+# Anime-Llasa-3B-Captions-Demo ローカル版
+このリポジトリは https://huggingface.co/spaces/OmniAICreator/Anime-Llasa-3B-Captions-Demo をフォークしたものです。
 
-original README.md: README-original.md
+[Anime Llasa 3B Captions model](https://huggingface.co/NandemoGHS/Anime-Llasa-3B-Captions) を動かす Huggingface spaces 用のプログラムをローカルで動くよう修正しています。
 
-# Install
+元のライセンスがわからないので、このリポジトリの著作者の修正はパブリックドメイン扱いにします。
 
+[自作のパッチ](https://gist.github.com/asfdrwe/c9fd1fe8aeb69fa90d5865d761f59eeb)と[5chのコード1](https://files.catbox.moe/wxfdul.py)と[5chのコード2](https://files.catbox.moe/6lm1wv.py)を元に修正しています。
+
+[元のREADME.md](README-original.md)
+
+## Windows
+
+あらかじめ [git](https://gitforwindows.org/) と [python3](https://www.python.org/downloads/windows/) をインストールしてください。python のバージョンは 3.12.x がおすすめです。
+
+### インストール
+git でリポジトリをダウンロードし、venv で仮想環境を作り、必要なモジュールを pip でインストールします。
 ```
 git clone https://github.com/asfdrwe/Anime-Llasa-3B-Captions-Demo
 cd Anime-Llasa-3B-Captions-Demo
+python -m venv venv
+venv\Scripts\activate
 pip install torch torchaudio --index-url https://download.pytorch.org/whl/cu128
 pip install -r requirements.txt
 ```
 
-# run
+[Windows版ffmpeg バイナリ配布サイト](https://www.gyan.dev/ffmpeg/builds/)から[ffmpeg-7.1.1-full_build-shared.7z](https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-7.1.1-full_build-shared.7z)をダウンロードし、エクスプローラーで右クリックしてすべて展開してください。
+
+展開されたフォルダを開き、binフォルダを開き、すべてのファイルを `venv\Lib\site-packages\torchcodec` にコピーしてください。
+
+
+### 実行
 
 ```
 python app.py
 ```
 
-# Changelog
-- 2025/10/25
-  - use NandemoGHS/Anime-XCodec2 model instead of NandemoGHS/Anime-XCodec2-44.1kHz due to bad reference audio handling
-  - use bfloat16
-  - autolaunch browser
-  - add run.bat for windows
+自動的にブラウザが開きます。
 
-by asfdrwe@gmail.com
+## Linux
+git と python3.12 と ffmpeg をインストールしてください。
+
+
+### インストール
+git でインストールし、venv で仮想環境を作り、pip で必要なモジュールをインストールします。
+```
+git clone https://github.com/asfdrwe/Anime-Llasa-3B-Captions-Demo
+cd Anime-Llasa-3B-Captions-Demo
+python -m venv venv
+. venv/bin/activate
+pip install torch torchaudio --index-url https://download.pytorch.org/whl/cu128
+pip install -r requirements.txt
+```
+
+上記はGeforceの場合です。Radeon rocm6.4 の場合はcu128の代わりにrocm6.4にしてください。
+```
+pip install torch torchaudio --index-url https://download.pytorch.org/whl/rocm6.4
+```
+
+### 実行
+
+```
+python app.py
+```
+
+自動的にブラウザが開きます。
+
+## 変更履歴
+- 2025/10/26
+  - 文書を日本語化
+  - 下記の Anime-XCodec2 を使ったワークアラウンドを削除し、44.1KHz で動くよう[修正したコード](https://files.catbox.moe/6lm1wv.py)を取り込み
+- 2025/10/25
+  - 参照音声使用時に NandemoGHS/Anime-XCodec2-44.1kHz ではおかしいので、 NandemoGHS/Anime-XCodec2 を使用して 16kHz で音声生成するよう変更
+  - bfloat16 で moderl を動かすよう変更
+  - ブラウザを自動起動するよう修正
+  - windows 向けに run.bat を追加
