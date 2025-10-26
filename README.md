@@ -26,7 +26,7 @@ pip install -r requirements.txt
 
 [Windows版ffmpeg バイナリ配布サイト](https://www.gyan.dev/ffmpeg/builds/)から[ffmpeg-7.1.1-full_build-shared.7z](https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-7.1.1-full_build-shared.7z)をダウンロードし、エクスプローラーで右クリックしてすべて展開してください。
 
-展開されたフォルダを開き、binフォルダを開き、中にあるすべてのファイルを `venv\Lib\site-packages\torchcodec` にコピーしてください。
+展開されたフォルダを開き、binフォルダを開き、中にあるすべてのファイルを Anime-Llasa-3B-Captions-Demo のあるフォルダ内の `venv\Lib\site-packages\torchcodec` にコピーしてください。
 
 
 ### 実行
