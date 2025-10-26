@@ -14,7 +14,7 @@
 あらかじめ [git](https://gitforwindows.org/) と [python3](https://www.python.org/downloads/windows/) をインストールしてください。python のバージョンは 3.12.x がおすすめです。
 
 ### インストール
-git でリポジトリをダウンロードし、venv で仮想環境を作り、必要なモジュールを pip でインストールします。
+ターミナルを起動し、git でリポジトリをダウンロードし、venv で仮想環境を作り、必要なモジュールを pip でインストールします。
 ```
 git clone https://github.com/asfdrwe/Anime-Llasa-3B-Captions-Demo
 cd Anime-Llasa-3B-Captions-Demo
@@ -34,10 +34,7 @@ pip install -r requirements.txt
 ```
 python app.py
 ```
-もしくは
-```
-run.bat
-```
+もしくは`run.bat`をダブルクリックしてください。
 
 自動的にブラウザが開きます。
 
