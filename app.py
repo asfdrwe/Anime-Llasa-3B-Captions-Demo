@@ -212,7 +212,6 @@ def infer(
             prompt_wav = waveform  # (1, T) at sr_codec
             prompt_wav_len = prompt_wav.shape[1]
 
-            whisper_device = device.type
             # Reference text: provided or transcribed
             if ref_text and ref_text.strip():
                 prompt_text = normalize(ref_text.strip())
