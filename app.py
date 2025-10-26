@@ -17,9 +17,13 @@ import argparse
 
 parser = argparse.ArgumentParser(description='Anime-Llasa-3B-Captions-Demo ローカル版')
 parser.add_argument('--whisper-cpu', action='store_true')
+parser.add_argument('--full-cpu', action='store_true')
 args = parser.parse_args()
 if args.whisper_cpu:
     print("whisper running on cpu")
+if args.full_cpu:
+    print("fully running on cpu")
+    args.whisper_cpu = True
 
 # -------------------------------
 # Model IDs (adjust if needed)
@@ -177,7 +181,10 @@ def infer(
     target_text = normalize(target_text)
 
     # Device setup (ZeroGPU-safe)
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    if not args.full_cpu:
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    else:
+        device = torch.device('cpu')
     model.to(device).eval()
     codec_model.to(device).eval()
 
@@ -228,6 +235,7 @@ def infer(
                     )
                 prompt_text = whisper_turbo_pipe(prompt_wav[0].cpu().numpy())['text'].strip()
                 progress(0.5, 'Transcribed! Encoding reference audio...')
+            print("REFRENECE TEXT: " + prompt_text)
 
             # Encode prompt audio to codec tokens
             vq_code_prompt = codec_model.encode_code(input_waveform=prompt_wav.to(device))[0, 0, :].tolist()

@@ -42,6 +42,12 @@ python app.py --whisper-cpu
 ```
 もしくは`run-whisper-cpu.bat`をダブルクリックして起動してください。
 
+遅いですが完全にCPUだけで動かすことも可能です。`--full-cpu`オプションをつけて起動してください。
+```
+python app.py --full-cpu
+```
+もしくは`run-full-cpu.bat`をダブルクリックして起動してください。
+
 自動的にブラウザが開きます。
 
 ## Linux
@@ -70,6 +76,16 @@ pip install torch torchaudio --index-url https://download.pytorch.org/whl/rocm6.
 python app.py
 ```
 
+VRAM 12GBで参照音声を使用するとVRAMがあふれるので、`--whisper-cpu`オプションをつけて起動してください。whisperがCPUで動くので遅くなりますが、VRAMがあふれることはなくなるはずです。
+```
+python app.py --whisper-cpu
+```
+
+遅いですが完全にCPUだけで動かすことも可能です。`--full-cpu`オプションをつけて起動してください。
+```
+python app.py --full-cpu
+```
+
 自動的にブラウザが開きます。
 
 ## 変更履歴
@@ -77,6 +93,7 @@ python app.py
   - 文書を日本語化
   - 下記の Anime-XCodec2 を使ったワークアラウンドを削除し、44.1KHz で動くよう[修正したコード](https://files.catbox.moe/6lm1wv.py)を取り込み
   - VRAM 12GB だと参照音声使用時にVRAMがあふれるのでwhisperをCPUで動かす--whisper-cpu オプションを追加
+  - 完全にCPUだけで動かす--full-cpu オプションを追加
 - 2025/10/25
   - 参照音声使用時に NandemoGHS/Anime-XCodec2-44.1kHz ではおかしいので、 NandemoGHS/Anime-XCodec2 を使用して 16kHz で音声生成するよう変更
   - bfloat16 で moderl を動かすよう変更
