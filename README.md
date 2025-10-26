@@ -19,7 +19,7 @@ git でリポジトリをダウンロードし、venv で仮想環境を作り�
 git clone https://github.com/asfdrwe/Anime-Llasa-3B-Captions-Demo
 cd Anime-Llasa-3B-Captions-Demo
 python -m venv venv
-venv\Scripts\activate
+.\venv\Scripts\activate
 pip install torch torchaudio --index-url https://download.pytorch.org/whl/cu128
 pip install -r requirements.txt
 ```
