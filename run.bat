@@ -1,5 +1,6 @@
-call .\venv\scripts\activate
+call .\venv\scripts\activate.bat
 python.exe app.py
 pause
+
 
 
