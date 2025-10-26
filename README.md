@@ -34,6 +34,10 @@ pip install -r requirements.txt
 ```
 python app.py
 ```
+もしくは
+```
+run.bat
+```
 
 自動的にブラウザが開きます。
 
