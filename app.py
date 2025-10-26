@@ -1,6 +1,7 @@
 #
 # fork from https://huggingface.co/spaces/OmniAICreator/Anime-Llasa-3B-Captions-Demo
-# modified by asfdrwe@gmail.com running local environment instead of huggingface spaces
+# modified for local environment instead of huggingface spaces
+# modified from https://files.catbox.moe/6lm1wv.py
 # 
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import torch
@@ -17,7 +18,7 @@ import re
 # Model IDs (adjust if needed)
 # -------------------------------
 llasa_model_id = 'NandemoGHS/Anime-Llasa-3B-Captions'
-xcodec2_model_id = "NandemoGHS/Anime-XCodec2"
+xcodec2_model_id = "NandemoGHS/Anime-XCodec2-44.1kHz"
 
 # -------------------------------
 # Lazy/global objects (kept close to original)
@@ -174,7 +175,8 @@ def infer(
     codec_model.to(device).eval()
 
     # Use codec sampling rate for resampling/outputs
-    sr_codec = getattr(codec_model.config, 'sampling_rate', 16000) # for Anime-XCodec2 model
+    sr_input = getattr(codec_model.config, 'input_sampling_rate', 16000)
+    sr_output = getattr(codec_model.config, 'sampling_rate', 44100)
 
     with torch.no_grad():
         speech_prefix_token_strs = []
@@ -197,8 +199,8 @@ def infer(
                 waveform = torch.mean(waveform, dim=0, keepdim=True)
 
             # Resample to codec SR
-            if sample_rate != sr_codec:
-                waveform = torchaudio.transforms.Resample(orig_freq=sample_rate, new_freq=sr_codec)(waveform)
+            if sample_rate != sr_input:
+                waveform = torchaudio.transforms.Resample(orig_freq=sample_rate, new_freq=sr_input)(waveform)
 
             prompt_wav = waveform  # (1, T) at sr_codec
             prompt_wav_len = prompt_wav.shape[1]
@@ -301,7 +303,8 @@ def infer(
 
         # If prefix used, strip prefix-duration to return only generated part
         if sample_audio_path and prompt_wav_len > 0:
-            gen_wav = gen_wav[:, :, prompt_wav_len:]
+            scaled_len = int(prompt_wav_len * sr_output / sr_input)
+            gen_wav = gen_wav[:, :, scaled_len:]
 
         progress(1, 'Synthesized!')
         return (sr_codec, gen_wav[0, 0, :].detach().cpu().numpy())
