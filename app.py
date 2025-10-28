@@ -16,14 +16,10 @@ import re
 import argparse
 
 parser = argparse.ArgumentParser(description='Anime-Llasa-3B-Captions-Demo ローカル版')
-parser.add_argument('--whisper-cpu', action='store_true')
 parser.add_argument('--full-cpu', action='store_true')
 args = parser.parse_args()
-if args.whisper_cpu:
-    print("whisper running on cpu")
 if args.full_cpu:
     print("fully running on cpu")
-    args.whisper_cpu = True
 
 # -------------------------------
 # Model IDs (adjust if needed)
@@ -181,10 +177,7 @@ def infer(
     target_text = normalize(target_text)
 
     # Device setup (ZeroGPU-safe)
-    if not args.full_cpu:
-        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    else:
-        device = torch.device('cpu')
+    device = torch.device('cuda' if not args.full_cpu and torch.cuda.is_available() else 'cpu')
     model.to(device).eval()
     codec_model.to(device).eval()
 
@@ -225,15 +218,30 @@ def infer(
                 progress(0.5, 'Using provided reference text. Encoding audio...')
             else:
                 progress(0.25, 'Transcribing reference audio with Whisper...')
+                if not args.full_cpu:
+                    # llasaモデルをCPUに移動してVRAMを解放 VRAMのキャッシュをクリア
+                    print("[VRAM_SWAP] Llasa model moved to CPU.")
+                    model.to("cpu")
+                    torch.cuda.empty_cache()
                 global whisper_turbo_pipe
                 if whisper_turbo_pipe is None:
                     whisper_turbo_pipe = pipeline(
                         "automatic-speech-recognition",
                         model="openai/whisper-large-v3-turbo",
                         torch_dtype=torch.float16,
-                        device=device.type if not args.whisper_cpu else "cpu",
+                        device=device.type if not args.full_cpu else "cpu",
                     )
+                else:
+                    if not args.full_cpu:
+                        print("[Whisper] Moving Whisper model to CUDA (FP16) for transcription.")
+                        whisper_turbo_pipe.model.to("cuda").half()
                 prompt_text = whisper_turbo_pipe(prompt_wav[0].cpu().numpy())['text'].strip()
+                if not args.full_cpu:
+                    # whisperモデルをCPUに移動してVRAMを解放 llasaモデルをCUDAに戻してVRAMのキャッシュをクリア
+                    print("[VRAM_SWAP] Whisper model moved to CPU. Llasa model moved to CUDA")
+                    whisper_turbo_pipe.model.to("cpu").half()
+                    model.to("cuda")
+                    torch.cuda.empty_cache()
                 progress(0.5, 'Transcribed! Encoding reference audio...')
             print("REFRENECE TEXT: " + prompt_text)
 

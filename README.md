@@ -5,7 +5,7 @@
 
 元のライセンスがわからないので、このリポジトリの著作者の修正はパブリックドメイン扱いにします。
 
-[自作のパッチ](https://gist.github.com/asfdrwe/c9fd1fe8aeb69fa90d5865d761f59eeb)と[5chのコード1](https://files.catbox.moe/wxfdul.py)と[5chのコード2](https://files.catbox.moe/6lm1wv.py)を元に修正しています。
+[自作のパッチ](https://gist.github.com/asfdrwe/c9fd1fe8aeb69fa90d5865d761f59eeb)と[5chのコード1](https://files.catbox.moe/wxfdul.py)と[5chのコード2](https://files.catbox.moe/6lm1wv.py)と[5chのコード3](https://files.catbox.moe/tj9z74.txt)を元に修正しています。
 
 [元のREADME.md](README-original.md)
 
@@ -35,12 +35,6 @@ pip install -r requirements.txt
 python app.py
 ```
 もしくは`run.bat`をダブルクリックしてください。
-
-VRAM 12GBで参照音声を使用するとVRAMがあふれるので、`--whisper-cpu`オプションをつけて起動してください。whisperがCPUで動くので遅くなりますが、VRAMがあふれることはなくなるはずです。
-```
-python app.py --whisper-cpu
-```
-もしくは`run-whisper-cpu.bat`をダブルクリックして起動してください。
 
 遅いですが完全にCPUだけで動かすことも可能です。`--full-cpu`オプションをつけて起動してください。
 ```
@@ -76,11 +70,6 @@ pip install torch torchaudio --index-url https://download.pytorch.org/whl/rocm6.
 python app.py
 ```
 
-VRAM 12GBで参照音声を使用するとVRAMがあふれるので、`--whisper-cpu`オプションをつけて起動してください。whisperがCPUで動くので遅くなりますが、VRAMがあふれることはなくなるはずです。
-```
-python app.py --whisper-cpu
-```
-
 遅いですが完全にCPUだけで動かすことも可能です。`--full-cpu`オプションをつけて起動してください。
 ```
 python app.py --full-cpu
@@ -89,6 +78,9 @@ python app.py --full-cpu
 自動的にブラウザが開きます。
 
 ## 変更履歴
+- 2025/10/28
+  - [5chのコード3](https://files.catbox.moe/tj9z74.txt) を元に、参照音声使用時に Llasa モデルを一旦 VRAM から退避し Whisper モデルを実行して参照音声の内容を文章で取得したあと、Whisper モデルを VRAM から退避させて Llasa モデルを VRAM に戻す機能を取り込み
+  - 上記機能で代替できるので --whisper-cpu オプションを削除
 - 2025/10/26
   - 文書を日本語化
   - 下記の Anime-XCodec2 を使ったワークアラウンドを削除し、44.1KHz で動くよう[修正したコード](https://files.catbox.moe/6lm1wv.py)を取り込み
