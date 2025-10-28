@@ -36,6 +36,14 @@ python app.py
 ```
 もしくは`run.bat`をダブルクリックしてください。
 
+VRAM 12GB の GPU では参照音声使用時に VRAM があふれる可能性があります。
+--move-model オプションを付けると Whisper モデルを使用する前に Llasa モデルを一旦
+VRAM から退避し、Whisper モデル実行後に戻すことで、VRAM あふれを防ぐことができます。
+```
+python app.py --model-move
+```
+もしくは`run-model-move.bat`をダブルクリックてください。
+
 遅いですが完全にCPUだけで動かすことも可能です。`--full-cpu`オプションをつけて起動してください。
 ```
 python app.py --full-cpu
@@ -70,6 +78,13 @@ pip install torch torchaudio --index-url https://download.pytorch.org/whl/rocm6.
 python app.py
 ```
 
+VRAM 12GB の GPU では参照音声使用時に VRAM があふれる可能性があります。
+--move-model オプションを付けると Whisper モデルを使用する前に Llasa モデルを一旦
+VRAM から退避し、Whisper モデル実行後に戻すことで、VRAM あふれを防ぐことができます。
+```
+python app.py --model-move
+```
+
 遅いですが完全にCPUだけで動かすことも可能です。`--full-cpu`オプションをつけて起動してください。
 ```
 python app.py --full-cpu
@@ -79,7 +94,7 @@ python app.py --full-cpu
 
 ## 変更履歴
 - 2025/10/28
-  - [5chのコード3](https://files.catbox.moe/tj9z74.txt) を元に、参照音声使用時に Llasa モデルを一旦 VRAM から退避し Whisper モデルを実行して参照音声の内容を文章で取得したあと、Whisper モデルを VRAM から退避させて Llasa モデルを VRAM に戻す機能を取り込み
+  - [5chのコード3](https://files.catbox.moe/tj9z74.txt) を元に、参照音声使用時に Llasa モデルを一旦 VRAM から退避し Whisper モデルを実行して参照音声の内容を文章で取得したあと、Whisper モデルを VRAM から退避させて Llasa モデルを VRAM に戻す機能を取り込み。--model-move オプション使用時に有効化
   - 上記機能で代替できるので --whisper-cpu オプションを削除
 - 2025/10/26
   - 文書を日本語化

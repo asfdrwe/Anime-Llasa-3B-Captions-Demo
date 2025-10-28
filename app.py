@@ -18,9 +18,12 @@ import argparse
 
 parser = argparse.ArgumentParser(description='Anime-Llasa-3B-Captions-Demo ローカル版')
 parser.add_argument('--full-cpu', action='store_true')
+parser.add_argument('--model-move', action='store_true')
 args = parser.parse_args()
 if args.full_cpu:
     print("fully running on cpu")
+if args.model_move:
+    print("enable model move option")
 
 # -------------------------------
 # Model IDs (adjust if needed)
@@ -219,7 +222,7 @@ def infer(
                 progress(0.5, 'Using provided reference text. Encoding audio...')
             else:
                 progress(0.25, 'Transcribing reference audio with Whisper...')
-                if not args.full_cpu:
+                if not args.full_cpu and args.model_move:
                     # llasaモデルをCPUに移動してVRAMを解放 VRAMのキャッシュをクリア
                     print("[VRAM_SWAP] Llasa model moved to CPU.")
                     model.to("cpu")
@@ -233,11 +236,11 @@ def infer(
                         device=device.type if not args.full_cpu else "cpu",
                     )
                 else:
-                    if not args.full_cpu:
+                    if not args.full_cpu and args.model_move:
                         print("[Whisper] Moving Whisper model to CUDA (FP16) for transcription.")
                         whisper_turbo_pipe.model.to("cuda").half()
                 prompt_text = whisper_turbo_pipe(prompt_wav[0].cpu().numpy())['text'].strip()
-                if not args.full_cpu:
+                if not args.full_cpu and args.model_move:
                     # whisperモデルをCPUに移動してVRAMを解放 llasaモデルをCUDAに戻してVRAMのキャッシュをクリア
                     print("[VRAM_SWAP] Whisper model moved to CPU. Llasa model moved to CUDA")
                     whisper_turbo_pipe.model.to("cpu").half()
