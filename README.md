@@ -37,7 +37,7 @@ python app.py
 もしくは`run.bat`をダブルクリックしてください。
 
 VRAM 12GB の GPU では参照音声使用時に VRAM があふれる可能性があります。
---move-model オプションを付けると Whisper モデルを使用する前に Llasa モデルを一旦
+--model-move オプションを付けると Whisper モデルを使用する前に Llasa モデルを一旦
 VRAM から退避し、Whisper モデル実行後に戻すことで、VRAM あふれを防ぐことができます。
 ```
 python app.py --model-move
@@ -79,7 +79,7 @@ python app.py
 ```
 
 VRAM 12GB の GPU では参照音声使用時に VRAM があふれる可能性があります。
---move-model オプションを付けると Whisper モデルを使用する前に Llasa モデルを一旦
+--model-move オプションを付けると Whisper モデルを使用する前に Llasa モデルを一旦
 VRAM から退避し、Whisper モデル実行後に戻すことで、VRAM あふれを防ぐことができます。
 ```
 python app.py --model-move
