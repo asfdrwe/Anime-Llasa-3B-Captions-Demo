@@ -2,6 +2,7 @@
 # fork from https://huggingface.co/spaces/OmniAICreator/Anime-Llasa-3B-Captions-Demo
 # modified for local environment instead of huggingface spaces
 # import 44.1kHz fixed code from https://files.catbox.moe/6lm1wv.py
+# import VRAM mitigation patch from https://files.catbox.moe/tj9z74.txt
 # 
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import torch
